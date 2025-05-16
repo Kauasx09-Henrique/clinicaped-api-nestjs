@@ -10,4 +10,6 @@ export class User {
   email: string;
   @Column()
   idade: number;
+  @Column()
+  sexo: string;
 }
