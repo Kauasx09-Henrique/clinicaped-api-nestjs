@@ -1,4 +1,4 @@
-import { User } from "src/users/entities/user.entity";
+import { Clinica } from "src/clinica/entities/clinica.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'enderecos' })
@@ -7,17 +7,20 @@ export class Endereco {
   id_endereco: number;
 
   @Column()
-  endereco_logradouro: string;
+  endereco_cep: string;
 
   @Column()
   endereco_complemento: string;
 
   @Column()
-  endereco_rua: string;
+  endereco_numero_casa: string;
 
   @Column()
-  endereco_numero: string;
+  endereco_bairro: string;
 
-  @ManyToOne(() => User, (user) => user.enderecos)
-  user: User;
+  @Column()
+  endereco_uf: string;
+
+  @ManyToOne(() => Clinica, () => Clinica.enderecos)
+  clinica: any;
 }

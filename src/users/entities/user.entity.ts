@@ -1,5 +1,5 @@
-import { Endereco } from "src/enderecos/entities/endereco.entity";
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+
+import { Entity, PrimaryGeneratedColumn, Column,} from "typeorm";
 
 @Entity({ name: 'users' })
 export class User {
@@ -7,23 +7,23 @@ export class User {
   id: number;
 
   @Column()
-  nome: string;
+  user_nome: string;
 
   @Column()
-  email: string;
+  user_senha: string;
+
+  @Column({ unique: true})
+  user_email: string;
 
   @Column()
-  idade: number;
+  user_data_nascimento: Date;
 
   @Column()
-  sexo: string;
+  user_genero: string;
 
-  @Column()
-  telefone: string;
+  @Column({ length: 15 })
+  user_telefone: string;
 
-  @Column()
-  cpf: string;
-
-  @OneToMany(() => Endereco, (endereco) => endereco.user)
-  enderecos: Endereco[];
+  @Column({ length: 14 })
+  user_cpf: string;
 }

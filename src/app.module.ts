@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
+import { ClinicaModule } from './clinica/clinica.module';
+import { FuncionamentoModule } from './funcionamento/funcionamento.module';
 
 @Module({
   imports: [
@@ -24,6 +25,9 @@ import { EnderecosModule } from './enderecos/enderecos.module';
     }),
     UsersModule,
     EnderecosModule,
+    ClinicaModule,
+    FuncionamentoModule,
+  
   ],
 })
 export class AppModule {}

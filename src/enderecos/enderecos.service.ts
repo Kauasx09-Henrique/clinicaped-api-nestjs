@@ -4,25 +4,31 @@ import { UpdateEnderecoDto } from './dto/update-endereco.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Endereco } from './entities/endereco.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import {  Clinica } from 'src/clinica/entities/clinica.entity';
 
 @Injectable()
 export class EnderecosService {
   constructor(
     @InjectRepository(Endereco)
     private enderecosRepository: Repository<Endereco>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(Clinica)
+    private clinicaRepository: Repository<Clinica>,
   ) {}
 
   async create(createEnderecoDto: CreateEnderecoDto): Promise<Endereco> {
-    const user = await this.userRepository.findOne({ where: { id: createEnderecoDto.userId } });
+    const clinica = await this.clinicaRepository.findOne({
+      where: { id: createEnderecoDto.clinicaId },
+    });
 
-    if (!user) {
-      throw new Error('Usuário não encontrado');
+    if (!clinica) {
+      throw new Error('Clínica não encontrada');
     }
 
-    const endereco = this.enderecosRepository.create({ ...createEnderecoDto, user });
+    const endereco = this.enderecosRepository.create({
+      ...createEnderecoDto,
+      clinica,
+    });
+
     return this.enderecosRepository.save(endereco);
   }
 
