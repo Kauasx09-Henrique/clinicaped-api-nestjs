@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
 import { ClinicaModule } from './clinica/clinica.module';
-import { FuncionamentoModule } from './funcionamento/funcionamento.module';
+import { MarcarConsultaModule } from './marcar_consulta/marcar_consulta.module';
 
 @Module({
   imports: [
@@ -16,8 +16,8 @@ import { FuncionamentoModule } from './funcionamento/funcionamento.module';
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
-      password: String(process.env.DB_PASSWORD),
-      database: process.env.DB_NAME, // <- aqui foi corrigido
+      password: String(process.env.DB_PASSWORD), // Geralmente process.env.DB_PASSWORD já é string
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
@@ -26,8 +26,8 @@ import { FuncionamentoModule } from './funcionamento/funcionamento.module';
     UsersModule,
     EnderecosModule,
     ClinicaModule,
-    FuncionamentoModule,
-  
+    MarcarConsultaModule,
   ],
+  // providers: [], (implícito, o que é bom aqui)
 })
 export class AppModule {}

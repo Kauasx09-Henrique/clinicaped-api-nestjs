@@ -1,5 +1,5 @@
-
-import { Entity, PrimaryGeneratedColumn, Column,} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { MarcarConsulta } from "src/marcar_consulta/entities/marcar_consulta.entity";
 
 @Entity({ name: 'users' })
 export class User {
@@ -12,11 +12,11 @@ export class User {
   @Column()
   user_senha: string;
 
-  @Column({ unique: true})
+  @Column({ unique: true })
   user_email: string;
 
-  @Column()
-  user_data_nascimento: Date;
+  @Column({ type: 'date' })
+  user_data_nascimento: Date; // Relacionado ao erro anterior de valores nulos
 
   @Column()
   user_genero: string;
@@ -26,4 +26,9 @@ export class User {
 
   @Column({ length: 14 })
   user_cpf: string;
+
+  @OneToMany(() => MarcarConsulta, (consulta) => consulta.user) // Ponto de atenção aqui
+  marcar_consulta: MarcarConsulta[];
+
+  static marcar_consulta: any; // Esta linha está incorreta para relacionamentos
 }

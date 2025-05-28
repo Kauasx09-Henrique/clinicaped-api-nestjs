@@ -7,4 +7,5 @@ export class CreateClinicaDto {
   aceita_convênios: boolean;
   observacoes: string;
   logo_clinica: string;
+  
 }

@@ -1,4 +1,5 @@
 import { Endereco } from "src/enderecos/entities/endereco.entity";
+import { MarcarConsulta } from "src/marcar_consulta/entities/marcar_consulta.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'clinica' })
@@ -34,7 +35,15 @@ export class Clinica {
 
   @OneToMany(() => Endereco, (endereco) => endereco.clinica)
   enderecos: Endereco[];
+
+ 
+
+   @OneToMany(() => MarcarConsulta, (marcar_consulta) => marcar_consulta.clinica)
+  marcar_consulta: MarcarConsulta[];
+  static marcar_consulta: any;
   static enderecos: any;
-  Funcionamento: any;
-  static funcionamento: any;
+  static horario: any;
+
+ 
+  
 }

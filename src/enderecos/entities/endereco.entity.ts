@@ -23,4 +23,5 @@ export class Endereco {
 
   @ManyToOne(() => Clinica, () => Clinica.enderecos)
   clinica: any;
+  Clinica: any;
 }

@@ -3,11 +3,11 @@ import { ClinicaService } from './clinica.service';
 import { ClinicaController } from './clinica.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Clinica } from './entities/clinica.entity';
+import { MarcarConsulta } from 'src/marcar_consulta/entities/marcar_consulta.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Clinica])], // <- IMPORTANTE
+  imports: [TypeOrmModule.forFeature([Clinica, MarcarConsulta])], 
   controllers: [ClinicaController],
   providers: [ClinicaService],
-  exports: [TypeOrmModule], // <- permite que outros módulos usem o repositório
 })
-export class ClinicaModule {}
+export class ClinicaModule { }

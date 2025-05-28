@@ -5,4 +5,5 @@ export class CreateEnderecoDto {
   endereco_bairro: string;
   endereco_uf: string;
   clinicaId: number;
+  
 }
