@@ -7,39 +7,36 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
-  ) { }
+    private readonly userRepository: Repository<User>,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
-    const newUser = await this.userRepository.save(user);
-    return newUser;
+    return await this.userRepository.save(user);
   }
 
-
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
   async findOne(id: number): Promise<User> {
-    const userSearch = await this.userRepository.findOne({ where: { id } });
-    if (!userSearch) {
-      throw new NotFoundException('Carro não encontrado!');
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`Usuário com id ${id} não encontrado.`);
     }
-    return userSearch;
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const userSearch = await this.findOne(id);
-    Object.assign(userSearch, updateUserDto);
-    return await this.userRepository.save(userSearch);
+    const user = await this.findOne(id);
+    Object.assign(user, updateUserDto);
+    return await this.userRepository.save(user);
   }
 
   async remove(id: number): Promise<void> {
-    const userSearch = await this.findOne(id);
-    await this.userRepository.remove(userSearch)
+    const user = await this.findOne(id);
+    await this.userRepository.remove(user);
   }
 }
