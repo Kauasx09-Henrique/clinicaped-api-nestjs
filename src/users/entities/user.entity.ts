@@ -16,7 +16,7 @@ export class User {
   user_email: string;
 
   @Column({ type: 'date' })
-  user_data_nascimento: Date; // Relacionado ao erro anterior de valores nulos
+  user_data_nascimento: Date; 
 
   @Column()
   user_genero: string;
@@ -27,8 +27,8 @@ export class User {
   @Column({ length: 14 })
   user_cpf: string;
 
-  @OneToMany(() => MarcarConsulta, (consulta) => consulta.user) // Ponto de atenção aqui
+  @OneToMany(() => MarcarConsulta, (consulta) => consulta.user) 
   marcar_consulta: MarcarConsulta[];
 
-  static marcar_consulta: any; // Esta linha está incorreta para relacionamentos
+  static marcar_consulta: any;
 }

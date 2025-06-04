@@ -7,6 +7,9 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
+  findByEmail(user_email: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
