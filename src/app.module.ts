@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
 import { ClinicaModule } from './clinica/clinica.module';
 import { MarcarConsultaModule } from './marcar_consulta/marcar_consulta.module';
-import { LoginUserModule } from './login_user/login_user.module';
+
 
 @Module({
   imports: [
@@ -28,7 +28,6 @@ import { LoginUserModule } from './login_user/login_user.module';
     EnderecosModule,
     ClinicaModule,
     MarcarConsultaModule,
-    LoginUserModule,
   ],
  
 })

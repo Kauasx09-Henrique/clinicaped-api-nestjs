@@ -4,8 +4,9 @@ export class CreateClinicaDto {
   cnpj_clinica: string;
   email_clinica: string;
   telefone_clinica: string;
-  aceita_convênios: boolean;
+  aceita_convenios: boolean;
   observacoes: string;
-  logo_clinica: string;
+  enderecos: any;
+  logo_clinica_url: string;
   
 }

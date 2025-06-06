@@ -21,10 +21,10 @@ export class User {
   @Column()
   user_genero: string;
 
-  @Column({ length: 15 })
+  @Column({ length: 20 })
   user_telefone: string;
 
-  @Column({ length: 14 })
+  @Column({ length: 15 })
   user_cpf: string;
 
   @OneToMany(() => MarcarConsulta, (consulta) => consulta.user) 

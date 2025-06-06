@@ -8,7 +8,9 @@ export class ClinicaController {
   constructor(private readonly clinicaService: ClinicaService) {}
 
   @Post()
-  create(@Body() createClinicaDto: CreateClinicaDto) {
+  create(
+    @Body() createClinicaDto: CreateClinicaDto & { enderecos?: any[] }
+  ) {
     return this.clinicaService.create(createClinicaDto);
   }
 
@@ -31,4 +33,5 @@ export class ClinicaController {
   remove(@Param('id') id: string) {
     return this.clinicaService.remove(+id);
   }
+  
 }

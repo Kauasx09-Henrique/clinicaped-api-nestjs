@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ClinicaService } from './clinica.service';
-import { ClinicaController } from './clinica.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Clinica } from './entities/clinica.entity';
-import { MarcarConsulta } from 'src/marcar_consulta/entities/marcar_consulta.entity';
+import { Endereco } from '../enderecos/entities/endereco.entity';
+import { ClinicaService } from './clinica.service';
+import { ClinicaController } from './clinica.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Clinica, MarcarConsulta])], 
-  controllers: [ClinicaController],
+  imports: [
+    TypeOrmModule.forFeature([Clinica, Endereco]),  
+  ],
   providers: [ClinicaService],
+  controllers: [ClinicaController],
+  exports: [ClinicaService],
 })
-export class ClinicaModule { }
+export class ClinicaModule {}
