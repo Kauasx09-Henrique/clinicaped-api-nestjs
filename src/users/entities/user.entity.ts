@@ -1,6 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { MarcarConsulta } from "src/marcar_consulta/entities/marcar_consulta.entity";
 
+
+
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -27,8 +35,14 @@ export class User {
   @Column({ length: 15 })
   user_cpf: string;
 
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER, // Garante que todo novo usuário seja 'USER' por padrão
+  })
+  role: UserRole;
+
+
   @OneToMany(() => MarcarConsulta, (consulta) => consulta.user) 
   marcar_consulta: MarcarConsulta[];
-
-  static marcar_consulta: any;
 }

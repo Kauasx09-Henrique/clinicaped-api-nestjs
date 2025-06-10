@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
@@ -12,10 +13,21 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+ async create(createUserDto: CreateUserDto): Promise<User> {
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(createUserDto.user_senha, salt);
+  // Salve o hashedPassword no lugar da senha original
+  const user = this.userRepository.create({ ...createUserDto, user_senha: hashedPassword });
+  return this.userRepository.save(user);
   }
+  async validateUser(email: string, pass: string): Promise<any> {
+  const user = await this.findByEmail(email);
+  if (user && (await bcrypt.compare(pass, user.user_senha))) {
+    const { user_senha, ...result } = user;
+    return result; // Retorna o usuário sem a senha
+  }
+  return null;
+}
 
   findAll() {
     return this.userRepository.find();

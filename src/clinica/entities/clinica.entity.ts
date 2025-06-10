@@ -1,8 +1,7 @@
-import { Endereco } from "src/enderecos/entities/endereco.entity";
-import { MarcarConsulta } from "src/marcar_consulta/entities/marcar_consulta.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Endereco } from 'src/enderecos/entities/endereco.entity';
 
-@Entity({ name: 'clinica' })
+@Entity({ name: 'clinicas' })
 export class Clinica {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,40 +9,19 @@ export class Clinica {
   @Column()
   nome_clinica: string;
 
-  @Column()
+  @Column({ nullable: true })
   especialidade_consulta: string;
 
-  @Column({ unique: true})
-  cnpj_clinica: string;
-
-  @Column()
-  email_clinica: string;
-
-  @Column()
-  telefone_clinica: string;
-
-
-  @Column({ default: false })
-  aceita_convenios: boolean;
-
-
   @Column({ nullable: true })
-  observacoes: string;
+  telefone_clinica: string;
 
   @Column({ nullable: true })
   logo_clinica: string;
 
-  @OneToMany(() => Endereco, (endereco) => endereco.clinica)
+  @Column({ default: false })
+  aceita_convenios: boolean;
+
+  @OneToMany(() => Endereco, (endereco) => endereco.clinica, { eager: true })
   enderecos: Endereco[];
-
- 
-
-   @OneToMany(() => MarcarConsulta, (marcar_consulta) => marcar_consulta.clinica)
-  marcar_consulta: MarcarConsulta[];
-  static marcar_consulta: any;
-  static enderecos: any;
-  static horario: any;
-
- 
-  
+  marcar_consulta: any;
 }

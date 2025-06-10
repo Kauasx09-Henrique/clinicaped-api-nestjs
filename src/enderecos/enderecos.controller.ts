@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { EnderecosService } from './enderecos.service';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
@@ -15,6 +15,12 @@ export class EnderecosController {
   @Get()
   findAll() {
     return this.enderecosService.findAll();
+  }
+
+  // Novo endpoint para pegar endereços pela clínica
+  @Get('clinica/:clinicaId')
+  findByClinicaId(@Param('clinicaId') clinicaId: string) {
+    return this.enderecosService.findByClinicaId(+clinicaId);
   }
 
   @Get(':id')

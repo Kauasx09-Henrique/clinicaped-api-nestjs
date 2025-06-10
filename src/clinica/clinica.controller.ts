@@ -5,7 +5,7 @@ import { UpdateClinicaDto } from './dto/update-clinica.dto';
 
 @Controller('clinica')
 export class ClinicaController {
-  constructor(private readonly clinicaService: ClinicaService) {}
+  constructor(private readonly clinicaService: ClinicaService) { }
 
   @Post()
   create(
@@ -33,5 +33,5 @@ export class ClinicaController {
   remove(@Param('id') id: string) {
     return this.clinicaService.remove(+id);
   }
-  
+
 }

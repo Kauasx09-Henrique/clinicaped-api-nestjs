@@ -1,5 +1,5 @@
-import { Clinica } from "src/clinica/entities/clinica.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Clinica } from 'src/clinica/entities/clinica.entity';
 
 @Entity({ name: 'enderecos' })
 export class Endereco {
@@ -21,7 +21,6 @@ export class Endereco {
   @Column()
   endereco_uf: string;
 
-  @ManyToOne(() => Clinica, () => Clinica.enderecos)
-  clinica: any;
-  Clinica: any;
+  @ManyToOne(() => Clinica, clinica => clinica.enderecos, { eager: false })
+  clinica: Clinica;
 }
