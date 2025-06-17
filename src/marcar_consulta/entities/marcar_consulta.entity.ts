@@ -1,26 +1,43 @@
-import { Clinica } from "src/clinica/entities/clinica.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "src/users/entities/user.entity"; 
+import { Clinica } from 'src/clinica/entities/clinica.entity';
+import { User } from 'src/users/entities/user.entity';
+import { 
+  Entity, PrimaryGeneratedColumn, Column, ManyToOne, 
+  CreateDateColumn, UpdateDateColumn, JoinColumn 
+} from "typeorm";
 
-@Entity({ name: 'marcarconsultas' })
+export enum ConsultaStatus {
+  AGENDADA = 'AGENDADA',
+  REALIZADA = 'REALIZADA',
+  CANCELADA = 'CANCELADA',
+}
+
+@Entity({ name: 'marcar_consultas' })
 export class MarcarConsulta {
   @PrimaryGeneratedColumn()
-  id: number; 
+  id: number;
 
   @Column({ type: 'date' })
   data_consulta: Date;
 
   @Column({ type: 'time' })
   horario_consulta: string;
+  
+  @Column({ type: 'enum', enum: ConsultaStatus, default: ConsultaStatus.AGENDADA })
+  status: ConsultaStatus;
 
-  @Column()
-  motivo_consulta: string;
+  // RELACIONAMENTO: Muitas consultas pertencem a UM usuário.
+  @ManyToOne(() => User, (user) => user.marcar_consulta)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
+  // RELACIONAMENTO: Muitas consultas pertencem a UMA clínica.
+  @ManyToOne(() => Clinica, (clinica) => clinica.marcar_consulta)
+  @JoinColumn({ name: 'clinica_id' })
+  clinica: Clinica;
+  
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
-@ManyToOne(() => Clinica, clinica => clinica.marcar_consulta)
-clinica: Clinica;
-
-@ManyToOne(() => User, user => user.marcar_consulta)
-user: User;
-
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

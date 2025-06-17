@@ -1,81 +1,64 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateMarcarConsultaDto } from './dto/create-marcar_consulta.dto';
-import { UpdateMarcarConsultaDto } from './dto/update-marcar_consulta.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Clinica } from 'src/clinica/entities/clinica.entity';
 import { Repository } from 'typeorm';
 import { MarcarConsulta } from './entities/marcar_consulta.entity';
+import { CreateMarcarConsultaDto } from './dto/create-marcar_consulta.dto';
+import { UpdateMarcarConsultaDto } from './dto/update-marcar_consulta.dto';
 import { User } from 'src/users/entities/user.entity';
+import { Clinica } from 'src/clinica/entities/clinica.entity';
 
 @Injectable()
 export class MarcarConsultaService {
   constructor(
     @InjectRepository(MarcarConsulta)
-    private readonly marcaConsultaRepository: Repository<MarcarConsulta>,
-
-    @InjectRepository(Clinica)
-    private readonly clinicaRepository: Repository<Clinica>,
-
+    private readonly consultaRepository: Repository<MarcarConsulta>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Clinica)
+    private readonly clinicaRepository: Repository<Clinica>,
   ) {}
 
-  async create(createMarcarConsultaDto: CreateMarcarConsultaDto): Promise<MarcarConsulta> {
-    const clinica = await this.clinicaRepository.findOne({
-      where: { id: createMarcarConsultaDto.clinicaId },
-    });
+  async create(createDto: CreateMarcarConsultaDto): Promise<MarcarConsulta> {
+    const { userId, clinicaId, ...consultaData } = createDto;
 
-    if (!clinica) {
-      throw new NotFoundException('Clínica não encontrada');
-    }
-
-    const user = await this.userRepository.findOne({
-      where: { id: createMarcarConsultaDto.userId },
-    });
-
+    const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
     }
 
-    const marcarConsulta = this.marcaConsultaRepository.create({
-      data_consulta: createMarcarConsultaDto.data_consulta,
-      horario_consulta: createMarcarConsultaDto.horario_consulta,
-      motivo_consulta: createMarcarConsultaDto.motivo_consulta,
+    const clinica = await this.clinicaRepository.findOneBy({ id: clinicaId });
+    if (!clinica) {
+      throw new NotFoundException(`Clínica com ID ${clinicaId} não encontrada.`);
+    }
+
+    const novaConsulta = this.consultaRepository.create({
+      ...consultaData,
+      user, 
       clinica,
-      user,
     });
 
-    return await this.marcaConsultaRepository.save(marcarConsulta);
+    return this.consultaRepository.save(novaConsulta);
   }
-
+  
   async findAll(): Promise<MarcarConsulta[]> {
-    return await this.marcaConsultaRepository.find({ relations: ['clinica', 'user'] });
+    return this.consultaRepository.find({ relations: ['user', 'clinica'] });
   }
 
   async findOne(id: number): Promise<MarcarConsulta> {
-    const consulta = await this.marcaConsultaRepository.findOne({
-      where: { id },
-      relations: ['clinica', 'user'],
-    });
-
-    if (!consulta) {
-      throw new NotFoundException(`Consulta com ID ${id} não encontrada`);
-    }
-
+    const consulta = await this.consultaRepository.findOne({ where: { id }, relations: ['user', 'clinica'] });
+    if (!consulta) { throw new NotFoundException(`Consulta com ID ${id} não encontrada.`); }
     return consulta;
   }
 
-  async update(id: number, updateMarcarConsultaDto: UpdateMarcarConsultaDto): Promise<MarcarConsulta> {
-    const consulta = await this.findOne(id);
-
-    Object.assign(consulta, updateMarcarConsultaDto);
-
-    return await this.marcaConsultaRepository.save(consulta);
+  async update(id: number, updateDto: UpdateMarcarConsultaDto): Promise<MarcarConsulta> {
+    const consulta = await this.consultaRepository.preload({ id, ...updateDto });
+    if (!consulta) { throw new NotFoundException(`Consulta com ID ${id} não encontrada.`); }
+    return this.consultaRepository.save(consulta);
   }
 
-  async remove(id: number): Promise<void> {
-    const consulta = await this.findOne(id);
-
-    await this.marcaConsultaRepository.remove(consulta);
+  async remove(id: number): Promise<{ message: string }> {
+    const result = await this.consultaRepository.delete(id);
+    if (result.affected === 0) { throw new NotFoundException(`Consulta com ID ${id} não encontrada.`); }
+    return { message: `Consulta com ID ${id} removida com sucesso.` };
   }
 }

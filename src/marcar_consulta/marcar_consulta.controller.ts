@@ -1,15 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { MarcarConsultaService } from './marcar_consulta.service';
 import { CreateMarcarConsultaDto } from './dto/create-marcar_consulta.dto';
 import { UpdateMarcarConsultaDto } from './dto/update-marcar_consulta.dto';
 
-@Controller('marcar-consulta')
+@Controller('consultas') // URL base: http://localhost:3000/consultas
 export class MarcarConsultaController {
   constructor(private readonly marcarConsultaService: MarcarConsultaService) {}
 
   @Post()
-  create(@Body() createMarcarConsultaDto: CreateMarcarConsultaDto) {
-    return this.marcarConsultaService.create(createMarcarConsultaDto);
+  create(@Body() createDto: CreateMarcarConsultaDto) {
+    return this.marcarConsultaService.create(createDto);
   }
 
   @Get()
@@ -18,17 +18,17 @@ export class MarcarConsultaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.marcarConsultaService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.marcarConsultaService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMarcarConsultaDto: UpdateMarcarConsultaDto) {
-    return this.marcarConsultaService.update(+id, updateMarcarConsultaDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateMarcarConsultaDto) {
+    return this.marcarConsultaService.update(id, updateDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.marcarConsultaService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.marcarConsultaService.remove(id);
   }
 }

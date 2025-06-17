@@ -7,10 +7,10 @@ import { ClinicaController } from './clinica.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Clinica, Endereco]),  
+    TypeOrmModule.forFeature([Clinica, Endereco]),
   ],
   providers: [ClinicaService],
   controllers: [ClinicaController],
   exports: [ClinicaService],
 })
-export class ClinicaModule {}
+export class ClinicaModule { }

@@ -4,6 +4,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { EnderecosModule } from './enderecos/enderecos.module';
+import { ClinicaModule } from './clinica/clinica.module';
+import { MarcarConsulta } from './marcar_consulta/entities/marcar_consulta.entity';
+import { MarcarConsultaModule } from './marcar_consulta/marcar_consulta.module';
 
 @Module({
   imports: [
@@ -23,6 +27,10 @@ import { UsersModule } from './users/users.module';
       inject: [ConfigService],
     }),
     UsersModule, 
+    EnderecosModule,
+    ClinicaModule,
+    MarcarConsulta,
+    MarcarConsultaModule,
   ],
   controllers: [],
   providers: [],
