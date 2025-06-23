@@ -96,3 +96,29 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+# Clinicaped API - NestJS
+
+API REST desenvolvida em NestJS para gerenciamento de usuários, clínicas e agendamentos do sistema Clinicaped.
+
+## Tecnologias Utilizadas
+
+- Node.js  
+- NestJS  
+- TypeScript  
+- PostgreSQL  
+
+## Funcionalidades
+
+- CRUD completo para usuários, clínicas e consultas  
+- Autenticação e autorização (JWT)  
+- Validação e tratamento de erros  
+- Documentação via Swagger  
+
+## Como Executar
+
+1. Clone este repositório:  
+```bash
+git clone https://github.com/Kauasx09-Henrique/clinicaped-api-nestjs.git
+
